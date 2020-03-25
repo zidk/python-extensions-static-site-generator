@@ -8,12 +8,13 @@ from docutils.core import publish_parts
 from markdown import markdown
 from ssg.content import Content
 
+from ssg.hooks import conversion_hooks, process_hooks
 
 class Parser:
-    extensions: List[str] = []
+    file_exts: List[str] = []
 
-    def valid_extension(self, extension):
-        return extension in self.extensions
+    def valid_file_ext(self, file_ext):
+        return file_ext in self.file_exts
 
     def parse(self, path: Path, source: Path, dest: Path):
         raise NotImplementedError
@@ -22,23 +23,28 @@ class Parser:
         with open(path, "r") as file:
             return file.read()
 
-    def write(self, path, dest, content, ext=".html"):
-        full_path = dest / path.with_suffix(ext).name
-        with open(full_path, "w") as file:
+    def write(self, path, dest, content, file_ext=".html"):
+
+        for Extension in process_hooks:
+            extension  = Extension("\x1b[1;32mhello")
+
+        file_path = dest / path.with_suffix(file_ext).name
+        with open(file_path, "w") as file:
             file.write(content)
 
     def copy(self, path, source, dest):
         shutil.copy2(path, dest / path.relative_to(source))
 
+
 class ResourceParser(Parser):
-    extensions = [".jpg", ".png", ".gif", ".css", ".html"]
+    file_exts = [".jpg", ".png", ".gif", ".css", ".html"]
 
     def parse(self, path, source, dest):
         self.copy(path, source, dest)
 
 
 class MarkdownParser(Parser):
-    extensions = [".md", ".markdown"]
+    file_exts = [".md", ".markdown"]
 
     def parse(self, path, source, dest):
         content = Content.load(self.read(path))
@@ -48,7 +54,7 @@ class MarkdownParser(Parser):
 
 
 class ReStructuredTextParser(Parser):
-    extensions = [".rst"]
+    file_exts = [".rst"]
 
     def parse(self, path, source, dest):
         content = Content.load(self.read(path))
