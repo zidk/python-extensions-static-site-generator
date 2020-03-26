@@ -2,4 +2,6 @@ from ssg.hooks import conversion
 
 @conversion
 class Sass:
-    pass
+
+    def __init__(self, message):
+        print(message)
