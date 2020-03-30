@@ -1,6 +1,6 @@
 conversion_hooks = []
 process_hooks = []
-document_processors = {}
+documents = {}
 
 def conversion(cls):
     conversion_hooks.append(cls)
@@ -11,9 +11,9 @@ def process(cls):
     return cls
 
 def stats(doctype):
-    def decorator(cls):
-        if doctype not in document_processors:
-            document_processors[doctype] = []
-        document_processors[doctype].append(cls)
+    def _stats(cls):
+        if doctype not in documents:
+            documents[doctype] = []
+        documents[doctype].append(cls)
         return cls
-    return decorator
+    return _stats
