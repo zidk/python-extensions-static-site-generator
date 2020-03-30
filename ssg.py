@@ -3,6 +3,7 @@ import typer
 from ssg.site import Site
 import ssg.parsers
 
+
 def main(source="content", dest="dist"):
     config = {
         "source": source,
@@ -10,11 +11,11 @@ def main(source="content", dest="dist"):
         "parsers": [
             ssg.parsers.ResourceParser(),
             ssg.parsers.MarkdownParser(),
-            ssg.parsers.ReStructuredTextParser()
+            ssg.parsers.ReStructuredTextParser(),
         ],
-        "extensions": ["menu","sass"]
     }
 
     Site(**config).build()
+
 
 typer.run(main)

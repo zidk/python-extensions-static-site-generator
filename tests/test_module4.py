@@ -43,7 +43,9 @@ def test_parser_markdown_class_module4(parse):
     inheriting = markdown_parser_class.code.inherit_from.name.value == "Parser"
     assert inheriting, "Is `MarkdownParser` a sub-class of the `Parser` class?"
 
-    markdown_parser_location = isinstance(markdown_parser_class.code.parent, redbaron.redbaron.RedBaron)
+    markdown_parser_location = isinstance(
+        markdown_parser_class.code.parent, redbaron.redbaron.RedBaron
+    )
     assert (
         markdown_parser_location
     ), "Is the `MarkdownParser` class declared in the correct scope?"
@@ -186,16 +188,16 @@ def test_parser_markdown_parse_write_html_module4(parse):
     )
 
     stdout_write_args = list(
-        stdout_write_call.call_argument.find_all(["name", "string", "binary_operator"]).map(
-            lambda node: str(node.value).replace("'", '"')
-        )
+        stdout_write_call.call_argument.find_all(
+            ["name", "string", "binary_operator"]
+        ).map(lambda node: str(node.value).replace("'", '"'))
     )
     write_message = stdout_write_args == [
-        '"\\x1b[1;32m{} converted to HTML. Metadata: {}\\n"', 
-        'format', 
-        'path', 
-        'name', 
-        'content'
+        '"\\x1b[1;32m{} converted to HTML. Metadata: {}\\n"',
+        "format",
+        "path",
+        "name",
+        "content",
     ]
     assert write_message, "Are you writing the correct message to the console?"
 
@@ -216,7 +218,9 @@ def test_parser_restructuredtext_class_module4(parse):
     inheriting = rst_parser_class.code.inherit_from.name.value == "Parser"
     assert inheriting, "Is `ReStructuredTextParser` a sub-class of the `Parser` class?"
 
-    rst_parser_location = isinstance(rst_parser_class.code.parent, redbaron.redbaron.RedBaron)
+    rst_parser_location = isinstance(
+        rst_parser_class.code.parent, redbaron.redbaron.RedBaron
+    )
     assert (
         rst_parser_location
     ), "Is the `ReStructuredTextParser` class declared in the correct scope?"
@@ -346,18 +350,19 @@ def test_parser_restructuredtext_parse_write_html_module4(parse):
         and node[2].name.value == "write",
     )
     stdout_write_args = list(
-        stdout_write_call.call_argument.find_all(["name", "string", "binary_operator"]).map(
-            lambda node: str(node.value).replace("'", '"')
-        )
+        stdout_write_call.call_argument.find_all(
+            ["name", "string", "binary_operator"]
+        ).map(lambda node: str(node.value).replace("'", '"'))
     )
     write_message = stdout_write_args == [
-        '"\\x1b[1;32m{} converted to HTML. Metadata: {}\\n"', 
-        'format', 
-        'path', 
-        'name', 
-        'content'
+        '"\\x1b[1;32m{} converted to HTML. Metadata: {}\\n"',
+        "format",
+        "path",
+        "name",
+        "content",
     ]
     assert write_message, "Are you writing the correct message to the console?"
+
 
 @pytest.mark.test_ssg_parsers_array_module4
 def test_ssg_parsers_array_module4(parse):
@@ -425,11 +430,11 @@ def test_site_staticmethod_module4(parse):
         and node[2].name.value == "write",
     )
     write_args = list(
-        stderr_write_call.call_argument.find_all(["name", "string", "binary_operator"]).map(
-            lambda node: str(node.value).replace("'", '"')
-        )
+        stderr_write_call.call_argument.find_all(
+            ["name", "string", "binary_operator"]
+        ).map(lambda node: str(node.value).replace("'", '"'))
     )
-    error_message = write_args == ['"\\x1b[1;31m{}\\n"', 'format', 'message']
+    error_message = write_args == ['"\\x1b[1;31m{}\\n"', "format", "message"]
     assert error_message, "Are you passing in the correct error message?"
 
 

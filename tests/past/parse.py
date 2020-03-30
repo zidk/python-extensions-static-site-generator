@@ -4,6 +4,7 @@ import ast
 import sys
 import re
 
+
 def mkstr(s):
     esc = s.translate({ord("\\"): r"\\", ord('"'): r"\""})
     return f'"{esc}"'

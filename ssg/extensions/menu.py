@@ -1,7 +1,7 @@
-from ssg.hooks import process
+from ssg.hooks import register
 
-@process
-class Menu:
+cache = None
 
-    def __init__(self, message):
-        print(message)
+@register("build_menu")
+def build_menu(file_path):
+    print(file_path)

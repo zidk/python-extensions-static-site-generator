@@ -52,7 +52,11 @@ class Parser:
 
     def get_call(self, value, code):
         call = code.find("call", lambda node: node.previous.value == value)
-        return SourceCode(True, call) if call is not None and len(call) > 0 else SourceCode(False, [])
+        return (
+            SourceCode(True, call)
+            if call is not None and len(call) > 0
+            else SourceCode(False, [])
+        )
 
     def get_args(self, code):
         return list(

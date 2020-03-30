@@ -369,7 +369,9 @@ def test_parser_resource_class_module2(parse):
         resource_parser_class.exists
     ), "Have you created a class called `ResourceParser` in the `parsers.py` file?"
 
-    resource_parser_location = isinstance(resource_parser_class.code.parent, redbaron.redbaron.RedBaron)
+    resource_parser_location = isinstance(
+        resource_parser_class.code.parent, redbaron.redbaron.RedBaron
+    )
     assert (
         resource_parser_location
     ), "Is the `ResourceParser` class declared in the correct scope?"
