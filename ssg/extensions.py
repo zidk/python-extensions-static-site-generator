@@ -1,21 +1,20 @@
-import os
 import sys
 import importlib
 
+from pathlib import Path
 
-def load_module(directory: str, name: str):
+
+def load_module(directory, name):
     sys.path.insert(0, directory)
     importlib.import_module(name)
     sys.path.pop(0)
 
 
-def load_directory(directory: str):
-    for name in os.listdir(directory):
-        if name.startswith("."):
-            continue
-        base = os.path.splitext(name)[0]
-        load_module(directory, base)
+def load_directory(directory):
+    for path in directory.rglob("*.py"):
+        load_module(str(directory), path.stem)
 
 
-def load_bundled_extensions():
-    load_directory(os.path.join(os.path.dirname(__file__), "extensions"))
+def load_bundled():
+    directory = Path(__file__).parent / "extensions"
+    load_directory(directory)
