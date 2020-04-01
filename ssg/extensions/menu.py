@@ -5,27 +5,17 @@ files = []
 
 @hooks.register("collect_files")
 def collect_files(source, site_parsers):
-    local_parsers = [
-        parser
-        for parser in site_parsers
-        if not isinstance(parser, parsers.ResourceParser)
-    ]
+    valid = lambda p: not isinstance(p, parsers.ResourceParser)
     for path in source.rglob("*"):
-        for parser in local_parsers:
+        for parser in list(filter(valid, site_parsers)):
             if parser.valid_file_ext(path.suffix):
                 files.append(path)
 
 
 @hooks.register("generate_menu")
-def generate_menu(html, base_ext):
-
-    menu = ["<ul>\n"]
-    names = [path.stem for path in files]
-
-    for name in names:
-        link = '<li><a href="{}{}">{}</a></li>\n'.format(name, base_ext, name.title())
-        menu.append(link)
-
-    menu.append("</ul>\n")
-
-    return "".join(menu) + html
+def generate_menu(html, ext):
+    menu_item = lambda name, ext: '<li><a href="{}{}">{}</a></li>'.format(
+        name, ext, name.title()
+    )
+    menu = "\n".join([menu_item(path.stem, ext) for path in files])
+    return "<ul>\n{}<ul>\n{}".format(menu, html)
