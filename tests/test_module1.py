@@ -1,6 +1,5 @@
 import re
 
-# import past
 import pmast
 import pytest
 import redbaron
