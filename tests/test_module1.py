@@ -3,6 +3,7 @@ import re
 import pmast
 import pytest
 import redbaron
+from .past.template import Template
 
 
 @pytest.mark.test_extensions_import_module1

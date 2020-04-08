@@ -11,7 +11,7 @@ from .past.template import Template
 pm = PatternDispatch()
 container = Box({"functions": {}, "classes": {}})
 
-with open("ssg/content.py", "r") as file:
+with open("../ssg/content.py", "r") as file:
     source = file.read()
 
 tree = ast.parse(source)
