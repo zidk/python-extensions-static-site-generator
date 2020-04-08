@@ -1,13 +1,34 @@
 # https://github.com/wildptr/sexp_of_python
-
 import ast
-import sys
-import re
 
 
 def mkstr(s):
     esc = s.translate({ord("\\"): r"\\", ord('"'): r"\""})
     return f'"{esc}"'
+
+
+def convert_node(node):
+    t = type(node)
+
+    if t is str:
+        return node #mkstr(node)
+
+    if t is list:
+        return [convert_node(child) for child in node]
+
+    if node is None:
+        return "nil"
+
+    tname = t.__qualname__
+    l = ["type: " + tname]
+
+    if t not in schema:
+        return f"#<{tname}>"
+
+    for name in schema[t]:
+        l.append(name)
+        l.append(convert_node(getattr(node, name)))
+    return l
 
 
 def sexp(sexp):
@@ -26,30 +47,6 @@ def sexp(sexp):
         return s
 
     return "#<error>"
-
-
-def convert_node(node):
-    t = type(node)
-
-    if t is str:
-        return mkstr(node)
-
-    if t is list:
-        return [convert_node(child) for child in node]
-
-    if node is None:
-        return "nil"
-
-    tname = t.__qualname__
-    l = [tname]
-
-    if t not in schema:
-        return f"#<{tname}>"
-
-    for name in schema[t]:
-        l.append(":" + name)
-        l.append(convert_node(getattr(node, name)))
-    return l
 
 
 # https://docs.python.org/3/library/ast.html#abstract-grammar
@@ -78,7 +75,7 @@ schema = {
     ast.Try: ["body", "handlers", "orelse", "finalbody"],
     ast.Assert: ["test", "msg"],
     ast.Import: ["names"],
-    ast.ImportFrom: ["module", "names", "level"],
+    ast.ImportFrom: ["module", "names"], #, "level"],
     ast.Global: ["names"],
     ast.Nonlocal: ["names"],
     ast.Expr: ["value"],
