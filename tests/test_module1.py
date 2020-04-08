@@ -1,8 +1,4 @@
-import re
-
-import pmast
 import pytest
-import redbaron
 from .past.template import Template
 
 
