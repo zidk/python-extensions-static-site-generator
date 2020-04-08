@@ -1,12 +1,12 @@
 import ast
 import pmast
 import pytest
+import json
 
 # from pmast import ast_type, Pattern, PatternDispatch
 # from box import Box
 from astpretty import pprint
 from .past.template import Template
-from .past.parse import convert_node
 from pathlib import Path
 
 
@@ -42,8 +42,8 @@ def test_past_example(parse):
     with open(Path.cwd() / "ssg" / "content.py", "r") as file:
         source = file.read()
 
-    matches = Template("from ? import ??").query(source)
+    matches = Template("def load(cls, string): ??").query(source)
     for match in matches:
-        print(convert_node(match))
+        print(match)
 
     assert False

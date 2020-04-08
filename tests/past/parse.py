@@ -2,16 +2,11 @@
 import ast
 
 
-def mkstr(s):
-    esc = s.translate({ord("\\"): r"\\", ord('"'): r"\""})
-    return f'"{esc}"'
-
-
 def convert_node(node):
     t = type(node)
 
-    if t is str:
-        return node #mkstr(node)
+    if t is str or t is int:
+        return node
 
     if t is list:
         return [convert_node(child) for child in node]
@@ -20,34 +15,14 @@ def convert_node(node):
         return "nil"
 
     tname = t.__qualname__
-    l = ["type: " + tname]
+    d = {"type": tname}
 
     if t not in schema:
         return f"#<{tname}>"
 
     for name in schema[t]:
-        l.append(name)
-        l.append(convert_node(getattr(node, name)))
-    return l
-
-
-def sexp(sexp):
-    if type(sexp) is str:
-        return sexp
-
-    if type(sexp) is list:
-        s = "("
-        sep = False
-        for child in sexp:
-            if sep:
-                s += " "
-            s += string_of_sexp(child)
-            sep = True
-        s += ")"
-        return s
-
-    return "#<error>"
-
+        d[name] = convert_node(getattr(node, name))
+    return d
 
 # https://docs.python.org/3/library/ast.html#abstract-grammar
 schema = {
@@ -75,7 +50,7 @@ schema = {
     ast.Try: ["body", "handlers", "orelse", "finalbody"],
     ast.Assert: ["test", "msg"],
     ast.Import: ["names"],
-    ast.ImportFrom: ["module", "names"], #, "level"],
+    ast.ImportFrom: ["module", "names", "level"],
     ast.Global: ["names"],
     ast.Nonlocal: ["names"],
     ast.Expr: ["value"],

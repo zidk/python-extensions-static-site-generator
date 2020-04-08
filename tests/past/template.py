@@ -25,10 +25,11 @@ THE SOFTWARE.
 
 
 import os.path
-import sys
-import tokenize
 import warnings
 import ast
+
+
+from .parse import convert_node
 
 
 class Template(object):
@@ -43,7 +44,7 @@ class Template(object):
         nodetype = type(self.pattern)
         for node in ast.walk(tree):
             if isinstance(node, nodetype) and is_ast_equal(node, self.pattern):
-                yield node
+                yield convert_node(node)
 
     def query_file(self, filename):
         if isinstance(filename, str):
