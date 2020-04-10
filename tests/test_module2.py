@@ -1,19 +1,16 @@
-import re
 import pytest
 
-import redbaron
 
-
-@pytest.mark.test_hooks_base_class_module2
-def test_hooks_base_class_module2(parse):
+@pytest.mark.test_hooks_callbacks_module2
+def test_hooks_callbacks_module2(parse):
 
     # _callbacks = {}
 
     assert False
 
 
-@pytest.mark.test_hooks_valid_extension_function_module2
-def test_hooks_valid_extension_function_module2(parse):
+@pytest.mark.test_hooks_register_decorator_module2
+def test_hooks_register_decorator_module2(parse):
 
     # def register(hook, order=0):
     #     def register_callback(func):
@@ -25,13 +22,13 @@ def test_hooks_valid_extension_function_module2(parse):
     assert False
 
 
-@pytest.mark.test_hooks_parse_function_module2
-def test_hooks_parse_function_module2(parse):
+@pytest.mark.test_hooks_callbacks_default_module2
+def test_hooks_callbacks_default_module2(parse):
     #         _callbacks.setdefault(hook, {}).setdefault(order, []).append(func)
     assert False
 
 
-@pytest.mark.test_hooks_read_function_module2
+@pytest.mark.test_hooks_event_hook_module2
 def test_hooks_read_function_module2(parse):
 
     # def event(hook, *args):
@@ -42,7 +39,7 @@ def test_hooks_read_function_module2(parse):
     assert False
 
 
-@pytest.mark.test_hooks_write_function_module2
+@pytest.mark.test_hooks_filter_hook_module2
 def test_hooks_write_function_module2(parse):
 
     # def filter(hook, value, *args):
