@@ -20,7 +20,7 @@ def test_hooks_callbacks_module2(parse):
                 "value_type": "Dict",
             }
         )
-        .exists
+        .exists()
     )
     assert (
         callbacks
