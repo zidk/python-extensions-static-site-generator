@@ -3,8 +3,6 @@ import re
 from collections.abc import Mapping
 from yaml import load, FullLoader
 
-from ssg import hooks
-
 
 class Content(Mapping):
     __delimiter = r"^(?:-|\+){3}\s*$"
