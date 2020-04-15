@@ -3,7 +3,6 @@ import json
 
 import parso
 import pytest
-import jmespath
 
 from collections import OrderedDict
 from types import GeneratorType as generator
@@ -95,11 +94,6 @@ class Parser:
             return Parser(None, result)
 
     ex = execute
-
-    def search(self, expr):
-        return Parser(None, jmespath.search(expr, self.nodes))
-
-    sr = search
 
     def exists(self):
         return bool(self.nodes)

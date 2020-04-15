@@ -3,7 +3,6 @@ import warnings
 import ast
 
 from tests.nodes import convert_node
-from astmonkey import transformers
 
 
 class Template(object):
@@ -12,10 +11,9 @@ class Template(object):
 
     def process(self, code):
         tree = ast.parse(code) if isinstance(code, str) else code
-        final_tree = transformers.ParentChildNodeTransformer().visit(tree)
         return [
             convert_node(node)
-            for node in ast.walk(final_tree)
+            for node in ast.walk(tree)
             if isinstance(node, type(self.pattern)) and is_ast_equal(node, self.pattern)
         ]
 
