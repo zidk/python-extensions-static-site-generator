@@ -2,6 +2,9 @@ import os.path
 import warnings
 import ast
 
+from collections import OrderedDict
+
+
 nodes = {
     # mod
     ast.Module: ["body"],
@@ -153,3 +156,23 @@ def convert_node(node):
     for name in nodes[t]:
         d[name] = convert_node(getattr(node, name))
     return d
+
+
+def flatten(d, sep="_"):
+
+    obj = OrderedDict()
+
+    def recurse(t, parent_key=""):
+
+        if isinstance(t, list):
+            for i in range(len(t)):
+                recurse(t[i], parent_key + sep + str(i) if parent_key else str(i))
+        elif isinstance(t, dict):
+            for k, v in t.items():
+                recurse(v, parent_key + sep + k if parent_key else k)
+        else:
+            obj[parent_key] = t
+
+    recurse(d)
+
+    return obj
