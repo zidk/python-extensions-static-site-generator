@@ -21,9 +21,6 @@ def test_stats_imports_module4(parse):
     hooks_import = stats.from_imports("ssg", "hooks")
     assert hooks_import, "Are you importing `hooks` from `ssg`?"
 
-    parsers_import = stats.from_imports("ssg", "parsers")
-    assert parsers_import, "Are you importing `parsers` from `ssg`?"
-
     start_time = (
         stats.assigns()
         .match(
