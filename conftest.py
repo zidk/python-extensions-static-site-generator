@@ -74,6 +74,15 @@ class Parser:
 
         return Parser(None, nodes)
 
+    def query_raw(self, pattern):
+        nodes = Template(pattern).process(self.code, True)
+        if isinstance(nodes, list) and len(nodes) == 1:
+            nodes = [flatten(convert_node(node)) for node in nodes[0].body]
+        return Parser(None, nodes)
+
+    def last_line(self):
+        return flatten(self.nodes["body"][-1])
+
     @property
     def message(self):
         return "{} on or around line {} in `{}`.".format(

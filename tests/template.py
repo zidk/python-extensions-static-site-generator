@@ -9,13 +9,20 @@ class Template(object):
     def __init__(self, pattern):
         self.pattern = TemplateTransformer.load(pattern)
 
-    def process(self, code):
+    def process(self, code, raw=False):
         tree = ast.parse(code) if isinstance(code, str) else code
-        return [
-            convert_node(node)
-            for node in ast.walk(tree)
-            if isinstance(node, type(self.pattern)) and is_ast_equal(node, self.pattern)
-        ]
+
+        nodes = []
+        for node in ast.walk(tree):
+            if isinstance(node, type(self.pattern)) and is_ast_equal(
+                node, self.pattern
+            ):
+                if not raw:
+                    nodes.append(convert_node(node))
+                else:
+                    nodes.append(node)
+
+        return nodes
 
     def process_file(self, filename):
         if isinstance(filename, str):

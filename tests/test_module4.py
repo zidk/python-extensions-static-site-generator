@@ -352,49 +352,51 @@ def test_site_stats_events_module4(parse):
     site = parse("site")
     assert site.success, site.message
 
-    build = site.method("build")
+    build = site.query_raw("def build(??): ??")
 
-    hooks_event_start_build = (
-        build.calls()
-        .match(
-            {
-                "type": "Expr",
-                "value_type": "Call",
-                "value_func_type": "Attribute",
-                "value_func_value_type": "Name",
-                "value_func_value_id": "hooks",
-                "value_func_attr": "event",
-                "value_args_0_type": "Constant",
-                "value_args_0_value": "start_build",
-            }
-        )
-        .exists()
-    )
+    start_build_dict = {
+        "type": "Expr",
+        "value_type": "Call",
+        "value_func_type": "Attribute",
+        "value_func_value_type": "Name",
+        "value_func_value_id": "hooks",
+        "value_func_attr": "event",
+        "value_args_0_type": "Constant",
+        "value_args_0_value": "start_build",
+    }
+
+    start_build_exists = build.match(start_build_dict).exists()
 
     assert (
-        hooks_event_start_build
+        start_build_exists
     ), 'Are you calling `hooks.event()` in the `build` method, are you passing in `"start_build"`?'
 
-    hooks_event_stats = (
-        build.calls()
-        .match(
-            {
-                "type": "Expr",
-                "value_type": "Call",
-                "value_func_type": "Attribute",
-                "value_func_value_type": "Name",
-                "value_func_value_id": "hooks",
-                "value_func_attr": "event",
-                "value_args_0_type": "Constant",
-                "value_args_0_value": "stats",
-            }
-        )
-        .exists()
-    )
+    start_build_location = start_build_dict == build.n[2]
+    assert (
+        start_build_location
+    ), 'Is `"start_build"` event in the correct location, between the `"collect_files"` event and the `mkdir` call?'
+
+    stats_dict = {
+        "type": "Expr",
+        "value_type": "Call",
+        "value_func_type": "Attribute",
+        "value_func_value_type": "Name",
+        "value_func_value_id": "hooks",
+        "value_func_attr": "event",
+        "value_args_0_type": "Constant",
+        "value_args_0_value": "stats",
+    }
+
+    stats_exists = build.match(stats_dict).exists()
 
     assert (
-        hooks_event_stats
-    ), 'Are you calling `hooks.event()` in the `build` method, are you passing in `"stats"`?'
+        stats_exists
+    ), 'Are you calling `hooks.event()` and passing in `"stats"` in the `build` method?'
+
+    stats_location = stats_dict == build.n[-1]
+    assert (
+        stats_location
+    ), 'Is the `"stats"` event on the last line of the `build` method?'
 
 
 @pytest.mark.test_parsers_written_events_module4
@@ -409,44 +411,33 @@ def test_parsers_written_events_module4(parse):
     markdown_parse = parsers.class_("MarkdownParser").defines("parse")
     rst_parse = parsers.class_("ReStructuredTextParser").defines("parse")
 
-    hooks_event_written_md = (
-        markdown_parse.calls()
-        .match(
-            {
-                "type": "Expr",
-                "value_type": "Call",
-                "value_func_type": "Attribute",
-                "value_func_value_type": "Name",
-                "value_func_value_id": "hooks",
-                "value_func_attr": "event",
-                "value_args_0_type": "Constant",
-                "value_args_0_value": "written",
-            }
-        )
-        .exists()
-    )
+    written_dict = {
+        "type": "Expr",
+        "value_type": "Call",
+        "value_func_type": "Attribute",
+        "value_func_value_type": "Name",
+        "value_func_value_id": "hooks",
+        "value_func_attr": "event",
+        "value_args_0_type": "Constant",
+        "value_args_0_value": "written",
+    }
 
+    written_md = markdown_parse.calls().match(written_dict).exists()
     assert (
-        hooks_event_written_md
+        written_md
     ), 'Are you calling `hooks.event()` in the `parse` method, are you passing in `"written"`?'
 
-    hooks_event_written_rst = (
-        rst_parse.calls()
-        .match(
-            {
-                "type": "Expr",
-                "value_type": "Call",
-                "value_func_type": "Attribute",
-                "value_func_value_type": "Name",
-                "value_func_value_id": "hooks",
-                "value_func_attr": "event",
-                "value_args_0_type": "Constant",
-                "value_args_0_value": "written",
-            }
-        )
-        .exists()
-    )
-
+    written_md_location = markdown_parse.last_line() == written_dict
     assert (
-        hooks_event_written_rst
+        written_md_location
+    ), 'Is the `"written"` event the last line of the `MarkdownParser` `parse` method?'
+
+    written_rst = rst_parse.calls().match(written_dict).exists()
+    assert (
+        written_rst
     ), 'Are you calling `hooks.event()` in the `parse` method, are you passing in `"written"`?'
+
+    written_rst_location = rst_parse.last_line() == written_dict
+    assert (
+        written_rst_location
+    ), 'Is the `"written"` event the last line of the `ReStructuredTextParser` `parse` method?'
