@@ -7,7 +7,7 @@ def test_stats_imports_module4(parse):
 
     # import time
 
-    # from ssg import hooks, parsers
+    # from ssg import hooks
 
     # start_time = None
     # total_written = 0

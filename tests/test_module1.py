@@ -218,14 +218,13 @@ def test_extensions_load_bundled_module1(parse):
 @pytest.mark.test_site_load_bundled_module1
 def test_site_load_bundled_module1(parse):
 
-    # from ssg import extensions
+    # from ssg import extensions, hooks
     # extensions.load_bundled()
 
     site = parse("site")
     assert site.success, site.message
 
     extensions_import = site.from_imports("ssg", "extensions")
-
     assert extensions_import, "Are you importing `extensions` from `ssg`?"
 
     build = site.method("build")

@@ -401,10 +401,14 @@ def test_menu_list_template_module3(parse):
 @pytest.mark.test_site_collect_files_event_module3
 def test_site_collect_files_event_module3(parse):
 
+    # , hooks
     #        hooks.event("collect_files", self.source, self.parsers)
 
     site = parse("site")
     assert site.success, site.message
+
+    hooks_import = site.from_imports("ssg", "hooks")
+    assert hooks_import, "Are you importing `hooks` from `ssg`?"
 
     build = site.method("build")
 
@@ -441,11 +445,16 @@ def test_site_collect_files_event_module3(parse):
 @pytest.mark.test_parsers_md_menu_filter_module3
 def test_parsers_md_menu_filter_module3(parse):
 
+    # from ssg import hook
+
     #        filtered = hooks.filter("generate_menu", html, self.base_ext)
     #        self.write(path, dest, filtered)
 
     parsers = parse("parsers")
     assert parsers.success, parsers.message
+
+    hooks_import = parsers.from_imports("ssg", "hooks")
+    assert hooks_import, "Are you importing `hooks` from `ssg`?"
 
     markdown_parse = parsers.class_("MarkdownParser").defines("parse")
 
