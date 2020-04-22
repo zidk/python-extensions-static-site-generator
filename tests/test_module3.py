@@ -367,7 +367,7 @@ def test_menu_names_module3(parse):
 @pytest.mark.test_menu_list_template_module3
 def test_menu_list_template_module3(parse):
 
-    #     return "<ul>\n{}<ul>\n{}".format(menu, html)
+    #     return "<ul>\n{}</ul>\n{}".format(menu, html)
 
     menu = parse("menu")
     assert menu.success, menu.message
@@ -386,7 +386,7 @@ def test_menu_list_template_module3(parse):
                 "value_type": "Call",
                 "value_func_type": "Attribute",
                 "value_func_value_type": "Constant",
-                "value_func_value_value": "<ul>\n{}<ul>\n{}",
+                "value_func_value_value": "<ul>\n{}</ul>\n{}",
                 "value_func_attr": "format",
                 "value_args_0_type": "Name",
                 "value_args_0_id": "menu",
