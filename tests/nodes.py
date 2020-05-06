@@ -169,6 +169,10 @@ def flatten(d, sep="_"):
                 recurse(t[i], parent_key + sep + str(i) if parent_key else str(i))
         elif isinstance(t, dict):
             for k, v in t.items():
+                if k == "n" or k == "s":
+                    k = "value"
+                if v == "Str" or v == "NameConstant" or v == "Num":
+                    v = "Constant"
                 recurse(v, parent_key + sep + k if parent_key else k)
         else:
             obj[parent_key] = t
