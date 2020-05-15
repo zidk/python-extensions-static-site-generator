@@ -11,7 +11,7 @@ def test_hooks_callbacks_module2(parse):
     assert hooks.success, hooks.message
 
     callbacks = (
-        hooks.assign_()
+        hooks.assign_to()
         .match(
             {
                 "type": "Assign",

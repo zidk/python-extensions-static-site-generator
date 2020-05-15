@@ -186,7 +186,7 @@ def test_extensions_load_bundled_module1(parse):
 
     assert load_bundled_exists, "Are you defining a function called `load_bundled`?"
 
-    load_bundled_assign_exists = load_bundled.assign_().match(
+    load_bundled_assign_exists = load_bundled.assign_to().match(
         {
             "targets_0_id": "directory",
             "value_type": "BinOp",

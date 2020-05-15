@@ -19,7 +19,7 @@ def test_menu_imports_module3(parse):
     assert parsers_import, "Are you importing `parsers` from `ssg`?"
 
     files = (
-        menu.assign_()
+        menu.assign_to()
         .match(
             {
                 "type": "Assign",
@@ -72,7 +72,7 @@ def test_menu_collect_files_module3(parse):
     ), 'Has the `collect_files` function been decorated with `@hooks.register()` passing in `"collect_files"`?'
 
     valid = (
-        collect_files.assign_()
+        collect_files.assign_to()
         .match(
             {
                 "type": "Assign",
@@ -243,7 +243,7 @@ def test_menu_generate_menu_module3(parse):
     ), 'Has the `generate_menu` function been decorated with `@hooks.register()` passing in `"generate_menu"`?'
 
     template = (
-        generate_menu.assign_()
+        generate_menu.assign_to()
         .match(
             {
                 "type": "Assign",
@@ -276,7 +276,7 @@ def test_menu_lambda_module3(parse):
     ), "Are you defining a function called `generate_menu` with the correct arguments?"
 
     menu_item = (
-        generate_menu.assigns()
+        generate_menu.assign_to()
         .match(
             {
                 "type": "Assign",
@@ -328,7 +328,7 @@ def test_menu_names_module3(parse):
     ), "Are you defining a function called `generate_menu` with the correct arguments?"
 
     menu_item = (
-        generate_menu.assigns()
+        generate_menu.assign_to()
         .match(
             {
                 "type": "Assign",
@@ -463,7 +463,7 @@ def test_parsers_md_menu_filter_module3(parse):
     markdown_parse = parsers.class_("MarkdownParser").defines("parse")
 
     hooks_filter_exists = (
-        markdown_parse.assigns()
+        markdown_parse.assign_to()
         .match(
             {
                 "type": "Assign",
@@ -528,7 +528,7 @@ def test_parsers_rst_menu_filter_module3(parse):
 
     rst_parse = parsers.class_("ReStructuredTextParser").defines("parse")
     hooks_filter_exists = (
-        rst_parse.assigns()
+        rst_parse.assign_to()
         .match(
             {
                 "type": "Assign",

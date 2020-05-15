@@ -113,14 +113,12 @@ class Parser:
 
         return Parser(None, [flatten(node) for node in node_list])
 
-    def assign_(self):
-        return Parser(None, [flatten(self.execute("$.body[@.type is 'Assign']").n)])
-
-    def assigns(self):
-        return Parser(
-            None,
-            [flatten(node) for node in self.execute("$.body[@.type is 'Assign']").n],
-        )
+    def assign_to(self):
+        nodes = self.execute("$.body[@.type is 'Assign']").n
+        if isinstance(nodes, dict):
+            return Parser(None, [flatten(nodes)])
+        else:
+            return Parser(None, [flatten(node) for node in nodes])
 
     def globals(self, name):
         return name in self.execute("$.body[@.type is 'Global'].names").n

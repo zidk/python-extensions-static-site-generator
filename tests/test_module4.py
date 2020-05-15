@@ -22,7 +22,7 @@ def test_stats_imports_module4(parse):
     assert hooks_import, "Are you importing `hooks` from `ssg`?"
 
     start_time = (
-        stats.assigns()
+        stats.assign_to()
         .match(
             {
                 "type": "Assign",
@@ -37,7 +37,7 @@ def test_stats_imports_module4(parse):
     assert start_time, "Are you creating a variable called `start_time` set to `None`?"
 
     total_written = (
-        stats.assigns()
+        stats.assign_to()
         .match(
             {
                 "type": "Assign",
@@ -94,7 +94,7 @@ def test_stats_register_start_build_module4(parse):
     ), "Are you using the `global` keyword to bring `start_time` in to scope in the `start_build` function?"
 
     start_time = (
-        start_build.assign_()
+        start_build.assign_to()
         .match(
             {
                 "type": "Assign",
@@ -153,9 +153,8 @@ def test_stats_register_written_module4(parse):
         total_written_global
     ), "Are you using the `global` keyword to bring `total_written` in to scope in the `written` function?"
 
-    print(json.dumps(written.assign_().n, indent=2))
     total_written = (
-        written.assign_()
+        written.assign_to()
         .match(
             {
                 "type": "Assign",
@@ -210,7 +209,7 @@ def test_stats_register_stats_module4(parse):
     ), 'Has the `stats` function been decorated with `@hooks.register()` passing in `"stats"`?'
 
     final_time = (
-        stats_def.assigns()
+        stats_def.assign_to()
         .match(
             {
                 "type": "Assign",
@@ -247,7 +246,7 @@ def test_stats_average_time_module4(parse):
     assert stats_def_exists, "Are you defining a function called `stats`?"
 
     average = (
-        stats_def.assigns()
+        stats_def.assign_to()
         .match(
             {
                 "type": "Assign",
@@ -286,7 +285,7 @@ def test_stats_report_module4(parse):
     assert stats_def_exists, "Are you defining a function called `stats`?"
 
     report = (
-        stats_def.assigns()
+        stats_def.assign_to()
         .match(
             {
                 "type": "Assign",
