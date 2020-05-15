@@ -90,8 +90,9 @@ def test_menu_collect_files_module3(parse):
         )
         .exists()
     )
-    assert valid, """Are you creating a variable called `valid` set equal to a `lambda` that has an argument `p`?
-    In the body are you testing if `p` is an instance of `parsers.ResourceParser`?"""
+    assert (
+        valid
+    ), "Are you creating a variable called `valid` set equal to a `lambda` that has an argument `p`? In the body are you testing if `p` is an instance of `parsers.ResourceParser`?"
 
 
 @pytest.mark.test_menu_for_build_list_module3
@@ -242,7 +243,7 @@ def test_menu_generate_menu_module3(parse):
     ), 'Has the `generate_menu` function been decorated with `@hooks.register()` passing in `"generate_menu"`?'
 
     template = (
-        generate_menu.assigns()
+        generate_menu.assign_()
         .match(
             {
                 "type": "Assign",
@@ -254,7 +255,6 @@ def test_menu_generate_menu_module3(parse):
         )
         .exists()
     )
-
     assert (
         template
     ), "Are you creating a variable called `template` and setting it equal to `'<li><a href=\"{}{}\">{}</a></li>'`?"
@@ -307,8 +307,9 @@ def test_menu_lambda_module3(parse):
         .exists()
     )
 
-    assert menu_item, """Are you creating a variable called `menu_item` set equal to a `lambda` that has two arguments `name` and `ext`?
-    In the body are you calling `format()` on `template`? Are you passing `name`, `ext`, and `name.title()` to `format()`?"""
+    assert (
+        menu_item
+    ), "Are you creating a variable called `menu_item` set equal to a `lambda` that has two arguments `name` and `ext`? In the body are you calling `format()` on `template`? Are you passing `name`, `ext`, and `name.title()` to `format()`?"
 
 
 @pytest.mark.test_menu_names_module3
@@ -359,9 +360,9 @@ def test_menu_names_module3(parse):
         .exists()
     )
 
-    assert menu_item, """Are you creating a variable called `menu` set equal to a call to `\"\n\".join()`?
-    Are you passing a list comprehension to `join()`? Do you have an iterator of `path in files`? 
-    As the result do you have a call to `menu_item()` passing in `path.stem` and `ext`?"""
+    assert (
+        menu_item
+    ), 'Are you creating a variable called `menu` set equal to a call to `"\\n".join()`? Are you passing a list comprehension to `join()`? Do you have an iterator of `path in files`? As the result do you have a call to `menu_item()` passing in `path.stem` and `ext`?'
 
 
 @pytest.mark.test_menu_list_template_module3
@@ -396,6 +397,9 @@ def test_menu_list_template_module3(parse):
         )
         .exists()
     )
+    assert (
+        menu_item
+    ), 'Are you returning the string `"<ul>\\n{}</ul>\\n{}"` with a call to `format()` appended. Are you passing `menu` and `html` to `format()`?'
 
 
 @pytest.mark.test_site_collect_files_event_module3
