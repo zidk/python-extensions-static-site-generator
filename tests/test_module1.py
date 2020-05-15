@@ -218,7 +218,7 @@ def test_extensions_load_bundled_module1(parse):
 @pytest.mark.test_site_load_bundled_module1
 def test_site_load_bundled_module1(parse):
 
-    # from ssg import extensions, hooks
+    # from ssg import extensions
     # extensions.load_bundled()
 
     site = parse("site")

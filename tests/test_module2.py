@@ -111,10 +111,9 @@ def test_hooks_callbacks_default_module2(parse):
         .exists()
     )
 
-    assert register_callback_exists, """Are you you chaining two calls to `setdefault()` on `_callbacks`?
-    Are you passing `hook` and `{}` to the first and `order` and `[]` to the second?
-    Are you chaining a call to `append()` and passing it `func`?
-    """
+    assert (
+        setdefault_calls_exists
+    ), "Are you you chaining two calls to `setdefault()` on `_callbacks`? Are you passing `hook` and `{}` to the first and `order` and `[]` to the second? Are you chaining a call to `append()` and passing it `func`?"
 
 
 @pytest.mark.test_hooks_event_hook_module2
